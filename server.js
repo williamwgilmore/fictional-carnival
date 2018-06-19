@@ -8,6 +8,10 @@ app.get('/', function(req, res){
 	res.sendFile(__dirname + '/public/view/index.html');
 });
 
+app.get('/break', function(req, res){
+	res.sendFile(__dirname + '/public/view/break.html');
+});
+
 app.get('*', function(req, res){
 	res.sendFile(__dirname + '/public/view/404.html');
 });
