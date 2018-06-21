@@ -123,6 +123,63 @@ function drawPaddle(){
 	context.closePath();
 }
 
+//-------------------------Brick section----------------
+let brickRowCount = 3;
+let brickColumCount = 7;
+let brickWidth = 75;
+let brickHeight = 20;
+let brickPadding = 10;
+let brickOffsetTop = 25;
+let brickOffsetLeft = 25;
+
+let bricks = [];
+for (let c=0; c<brickColumCount; c++){
+	bricks[c] = [];
+	for (let r=0; r<brickRowCount; r++){
+		bricks[c][r] = {x: 0, y: 0, status: 1};
+	}
+}
+
+function drawBricks() {
+	for (let c=0; c<brickColumCount; c++){
+		for (let r=0; r<brickRowCount; r++){
+			if (bricks[c][r].status == 1){
+				let brickX = (c*(brickWidth+brickPadding))+brickOffsetLeft;
+				let brickY = (r*(brickHeight+brickPadding))+brickOffsetTop;
+				bricks[c][r].x = brickX;
+				bricks[c][r].y = brickY;
+				context.beginPath();
+				context.rect(brickX,brickY,brickWidth, brickHeight);
+				context.fillStyle = 'maroon';
+				context.fill();
+				context.closePath();
+			}
+		}
+	}
+}
+
+function detectBrickCollision() {
+	for (let c=0; c<brickColumCount; c++){
+		for (let r=0; r<brickRowCount; r++){
+			let b = bricks[c][r];
+			if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight && b.status == 1){
+				dy = -dy;
+				b.status = 0;
+				score ++;
+			}
+		}
+	}
+}
+
+//score
+let score = 0;
+
+function drawScore() {
+	context.font = '16px Arial';
+	context.fillStyle = 'blue';
+	context.fillText('Score: ' + score, 8,20);
+}
+
 //-------------------------Draw renders the game using the above functions----------------
 function draw() {
 	//Clear the current positions
@@ -131,10 +188,20 @@ function draw() {
     x += dx;
     y += dy;
     //Redraw the new positions
+    detectBrickCollision();
+    detectCollision();
+    drawBricks();
     drawBall();
     drawPaddle();
-    detectCollision();
+    drawScore();
+    if (score == 21){
+		context.font = '50px Arial';
+		context.fillStyle = 'blue';
+		context.fillText('You win!', canvas.width/2,canvas.height/2);
+		clearInterval(game);
+	}
 }
 
 //Runs every 10 miliseconds
-setInterval(draw, 10);
+let game = 	setInterval(draw, 10);
+
