@@ -100,6 +100,16 @@ function keyUpHandler(e){
 	}
 }
 
+//Mouse commands
+document.addEventListener("mousemove", mouseMoveHandler, false);
+
+function mouseMoveHandler(e){
+	let mouseX = e.clientX - canvas.brickOffsetLeft;
+	if (mouseX > 0 && mouseX < canvas.width){
+		paddleX = mouseX - paddleWidth/2;
+	}
+}
+
 //Render the paddle
 function drawPaddle(){
 	//Movement
@@ -197,11 +207,10 @@ function draw() {
     if (score == 21){
 		context.font = '50px Arial';
 		context.fillStyle = 'blue';
-		context.fillText('You win!', canvas.width/2,canvas.height/2);
+		context.fillText('You win!', canvas.width/2 - 90,canvas.height/2);
 		clearInterval(game);
 	}
 }
 
 //Runs every 10 miliseconds
 let game = 	setInterval(draw, 10);
-
