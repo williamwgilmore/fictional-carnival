@@ -101,14 +101,28 @@ function keyUpHandler(e){
 }
 
 //Mouse commands
-document.addEventListener("mousemove", mouseMoveHandler, false);
+// document.addEventListener("mousemove", mouseMoveHandler, false);
 
-function mouseMoveHandler(e){
-	let mouseX = e.clientX - canvas.brickOffsetLeft;
-	if (mouseX > 0 && mouseX < canvas.width){
-		paddleX = mouseX - paddleWidth/2;
-	}
-}
+// function mouseMoveHandler(e){
+// 	let mouseX = e.clientX - canvas.brickOffsetLeft;
+// 	if (mouseX > 0 && mouseX < canvas.width){
+// 		paddleX = mouseX - paddleWidth/2;
+// 	}
+// }
+
+    function mouse(e) {
+      var pos = getMousePos(canvas, e)
+      paddleX = pos.x - paddleWidth/2
+    }
+
+    window.addEventListener('mousemove', mouse, false)
+
+    function getMousePos(canvas, evt) {
+      var rect = canvas.getBoundingClientRect()
+      return {
+        x: evt.clientX - rect.left
+      }
+    }
 
 //Render the paddle
 function drawPaddle(){
