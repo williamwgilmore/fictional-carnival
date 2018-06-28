@@ -32,6 +32,10 @@ function cycleColor() {
 	paddleColor = paddleColor == 11 ? 0 : paddleColor + 1;
 }
 
+function refreshPage() {
+	document.location.reload();
+}
+
 function detectCollision() {
     if (y + dy < collisionRadius){
     	dy = -dy;
@@ -41,7 +45,10 @@ function detectCollision() {
     	dy = -dy;
     }
     if (y + dy > canvas.height - collisionRadius){
-    	document.location.reload();
+		context.font = '16px Arial';
+		context.fillStyle = 'blue';
+		context.fillText('Game over', canvas.width/2,canvas.height/2);
+    	setTimeout(refreshPage, 3000);
     }
     if (x + dx < collisionRadius || x + dx > canvas.width - collisionRadius){
     	dx = -dx;
